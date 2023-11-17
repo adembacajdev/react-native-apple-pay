@@ -1,19 +1,21 @@
-#import "ApplePay.h"
+#import <React/RCTBridgeModule.h>
 
-@implementation ApplePay
-RCT_EXPORT_MODULE()
+@interface RCT_EXTERN_MODULE(ApplePaySDK, NSObject)
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_EXPORT_METHOD(multiply:(double)a
-                  b:(double)b
+RCT_EXTERN_METHOD(makePayment:(nonnull NSNumber *)total
+                  currencyCode:(NSString *)currencyCode
+                  merchantId:(NSString *)merchantId
+                  countryCode:(NSString *)countryCode
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(canMakePayments:(RCTPromiseResolveBlock)resolve
+  reject:(RCTPromiseRejectBlock)reject)
+
+
++ (BOOL)requiresMainQueueSetup
 {
-    NSNumber *result = @(a * b);
-
-    resolve(result);
+  return NO;
 }
-
 
 @end

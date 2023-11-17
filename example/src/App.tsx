@@ -1,18 +1,27 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-apple-pay';
+import { StyleSheet, View } from 'react-native';
+import {
+  canMakeApplePayPayments,
+  ApplePayButton,
+  makeApplePayPayment,
+} from 'react-native-apple-pay';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [canMakePayments, setCanMakePayments] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    canMakeApplePayPayments().then(setCanMakePayments);
   }, []);
+
+  const payWithApple = async () => {
+    const result = await makeApplePayPayment(100, 'USD', 'Test', 'Test');
+    console.log({ result });
+  };
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      {canMakePayments ? <ApplePayButton onPress={payWithApple} /> : null}
     </View>
   );
 }
